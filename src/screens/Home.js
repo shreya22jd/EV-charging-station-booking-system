@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import userimg from '../../assets/userIcon.png'
 import React from 'react';
+import Footer from '../common/Footer'; 
 
 const Home = ({ navigation }) => {
   return (
@@ -23,18 +24,8 @@ const Home = ({ navigation }) => {
       </TouchableOpacity>
 
       {/* Footer Navigation */}
-      <View style={styles.footer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Home')} style={styles.footerItem}>
-          <Text style={styles.footerText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Booking')} style={styles.footerItem}>
-          <Text style={styles.footerText}>Booking</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Profile')} style={styles.footerItem}>
-          <Image source={userimg} style={styles.profileIcon} />
-          <Text style={styles.footerText}>Profile</Text>
-        </TouchableOpacity>
-      </View>
+      {/* Footer Component */}
+      <Footer navigation={navigation} />
     </View>
   );
 };

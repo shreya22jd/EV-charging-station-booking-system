@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import Footer from "../common/Footer";
 
 const Profile = () => {
   const navigation = useNavigation();
@@ -44,6 +45,7 @@ const Profile = () => {
           <Text style={[styles.optionText, { color: "red" }]}>🚪 Logout</Text>
         </TouchableOpacity>
       </View>
+      <Footer navigation={navigation} />
     </View>
   );
 };
