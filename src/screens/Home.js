@@ -1,9 +1,23 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import userimg from '../../assets/userIcon.png'
-import React from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, Image, BackHandler } from 'react-native';
+import React, { useEffect } from 'react';
 import Footer from '../common/Footer'; 
+import userimg from '../../assets/userIcon.png';
 
 const Home = ({ navigation }) => {
+
+  useEffect(() => {
+    const backAction = () => {
+      BackHandler.exitApp(); // Exit app immediately without an alert
+      return true;
+    };
+
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    
+    return () => {
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+    };
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Welcome to Home</Text>
@@ -24,7 +38,6 @@ const Home = ({ navigation }) => {
       </TouchableOpacity>
 
       {/* Footer Navigation */}
-      {/* Footer Component */}
       <Footer navigation={navigation} />
     </View>
   );
