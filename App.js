@@ -8,7 +8,9 @@ import UserLogin from './src/screens/UserLogin';
 import SignUp from './src/screens/SignUp';
 import Home from './src/screens/Home';
 import Profile from './src/screens/Profile';
- 
+import Account from './src/screens/MyAccount';
+import ResetPassword from './src/screens/ResetPassword';
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -23,6 +25,8 @@ export default function App() {
           <Stack.Screen name="signup" component={SignUp} options={{ headerShown: false}}/>
           <Stack.Screen name="home" component={Home} options={{ headerShown: false}}/>
           <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false}}/>
+          <Stack.Screen name="Account" component={Account} options={{ headerShown: false}}/>
+          <Stack.Screen name="ResetPassword" component={ResetPassword} options={{ headerShown: false}}/>
           
         </Stack.Navigator>
       </NavigationContainer>

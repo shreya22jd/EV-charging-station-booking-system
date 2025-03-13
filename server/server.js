@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
-
+const accountRoutes = require("./routes/account");
 
 const app = express();
 app.use(express.json());
@@ -24,6 +24,7 @@ app.get('/', (req, res) => {
 });
 
 // Routes
+app.use("/api/account", accountRoutes);
 app.use('/api/auth', require('./routes/auth')); // Authentication routes
 // Add more routes here if needed, e.g.:
 // app.use('/api/users', require('./routes/users'));

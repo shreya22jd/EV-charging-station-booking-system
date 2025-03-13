@@ -1,9 +1,10 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image,BackHandler } from 'react-native';
 import userimg from '../../assets/userIcon.png'
-import React from 'react';
+import React,{useEffect} from 'react';
 import Footer from '../common/Footer'; 
 
 const Home = ({ navigation }) => {
+ 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Welcome to Home</Text>

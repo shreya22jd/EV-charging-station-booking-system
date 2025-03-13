@@ -1,5 +1,6 @@
 import { StyleSheet, Text, TextInput, View, Image, TouchableOpacity, Alert } from 'react-native';
 import React, { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';  // ✅ Import AsyncStorage
 import { button1 } from '../common/button';
 import userIcon from '../../assets/userIcon.png';
 import passwordIcon from '../../assets/passwordIcon.png';
@@ -13,28 +14,31 @@ const UserLogin = ({ navigation }) => {
       Alert.alert('Error', 'Please enter both username and password.');
       return;
     }
-  
+
     try {
-      const response = await fetch('http://10.1.27.44:5000/api/auth/login', {
+      const response = await fetch('http://10.1.14.109:5000/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
-  
+
       const data = await response.json();
-  
+
       if (response.ok) {
-       // Alert.alert('Success', 'Login successful');
-        console.log("Navigating to Home...");
-        navigation.navigate('home'); // Use replace to avoid back navigation
+        const userId = data.user._id;
+        
+        // ✅ Store userId in AsyncStorage
+        await AsyncStorage.setItem("userId", userId);
+        console.log("Stored userId:", userId);
+
+        navigation.navigate('home');  
       } else {
         Alert.alert('Error', data.message || 'Invalid credentials');
       }
     } catch (error) {
       Alert.alert('Error', 'Network error, please try again.');
     }
-  };  
-
+  };
 
   return (
     <View style={styles.screen}>
@@ -70,7 +74,6 @@ const UserLogin = ({ navigation }) => {
           <Text style={button1}>Login</Text>
         </TouchableOpacity>
 
-        {/* Sign Up Link */}
         <View style={styles.signUpContainer}>
           <Text style={styles.signInText}>Don't have an account? </Text>
           <TouchableOpacity onPress={() => navigation.navigate('signup')}>

@@ -77,13 +77,59 @@ router.post('/login', async (req, res) => {
 });
 
 // Get User Route (Protected)
-router.get('/user', authMiddleware, async (req, res) => {
+router.get('/user/:id', authMiddleware, async (req, res) => {
     try {
-        const user = await User.findById(req.user.id).select('-password'); // Exclude password
+        console.log('Received User ID:', req.params.id);  // ✅ Debugging
+        const user = await User.findById(req.params.id).select('-password'); // Ensure User model exists
+        if (!user) return res.status(404).json({ message: 'User not found' });
+
         res.json(user);
-    } catch (err) {
-        res.status(500).json({ message: 'Server Error' });
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        res.status(500).json({ message: 'Server error' });
     }
 });
 
+// Reset Password Route (Protected)
+// Password Reset Without Token
+router.post('/reset-password', async (req, res) => {
+    try {
+        const { userId, currentPassword, newPassword } = req.body;
+
+        // Validate input
+        if (!userId || !currentPassword || !newPassword) {
+            return res.status(400).json({ message: 'User ID, current password, and new password are required' });
+        }
+
+        if (!isValidPassword(newPassword)) {
+            return res.status(400).json({ message: 'New password must contain at least one special character (@), one uppercase letter, one digit, and be at least 6 characters long' });
+        }
+
+        // Find user by ID
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Check if current password is correct
+        const isMatch = await bcrypt.compare(currentPassword, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: 'Current password is incorrect' });
+        }
+
+        // Hash new password
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+        // Update password
+        user.password = hashedPassword;
+        await user.save();
+
+        res.json({ message: 'Password updated successfully' });
+
+    } catch (error) {
+        console.error('Reset Password Error:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
 module.exports = router;
