@@ -16,7 +16,11 @@ const SignUp = ({ navigation }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   // Backend API URL (replace with your actual backend URL)
+<<<<<<< HEAD
   const API_URL = 'http://192.168.43.243:5000/api/auth/signup';
+=======
+  const API_URL = 'http://10.1.14.109:5000/api/auth/signup';
+>>>>>>> ec183e11199e5e199dccdfaba5e9d6d29d1fdbdf
 
   // Handle Sign Up
   const handleSignUp = async () => {
